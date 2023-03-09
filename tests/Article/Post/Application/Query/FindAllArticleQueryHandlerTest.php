@@ -12,6 +12,12 @@ use PHPUnit\Framework\TestCase;
 
 final class FindAllArticleQueryHandlerTest extends TestCase
 {
+    private FindAllArticleQueryHandler $sut;
+    protected function setUp(): void
+    {
+        $this->sut = new FindAllArticleQueryHandler();
+    }
+
     /**
      * @test
      * be_of_proper_class
@@ -19,9 +25,8 @@ final class FindAllArticleQueryHandlerTest extends TestCase
      */
     public function itShouldBeOfProperClass(): void
     {
-        $sut = new FindAllArticleQueryHandler();
-        $this->assertInstanceOf(FindAllArticleQueryHandler::class, $sut);
-        $this->assertInstanceOf(QueryHandlerInterface::class, $sut);
+        $this->assertInstanceOf(FindAllArticleQueryHandler::class, $this->sut);
+        $this->assertInstanceOf(QueryHandlerInterface::class, $this->sut);
     }
 
     /**
@@ -33,7 +38,6 @@ final class FindAllArticleQueryHandlerTest extends TestCase
     {
         $this->expectException(NotPostsFoundException::class);
         $query = new FindAllArticleQuery();
-        $sut = new FindAllArticleQueryHandler();
-        ($sut)($query);
+        ($this->sut)($query);
     }
 }
