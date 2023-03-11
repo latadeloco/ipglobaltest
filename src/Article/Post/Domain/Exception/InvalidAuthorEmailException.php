@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Article\Post\Domain\Exception;
 
-final class InvalidAuthorEmailException
-{
+use Exception;
 
+final class InvalidAuthorEmailException extends Exception
+{
 }

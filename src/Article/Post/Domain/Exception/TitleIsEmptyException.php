@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Article\Post\Domain\Exception;
 
-final class TitleIsEmptyException
+use Exception;
+
+final class TitleIsEmptyException extends Exception
 {
 
 }

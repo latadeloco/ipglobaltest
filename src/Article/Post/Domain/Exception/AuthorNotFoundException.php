@@ -6,6 +6,6 @@ namespace App\Article\Post\Domain\Exception;
 
 use Exception;
 
-final class AutorNotFoundException extends Exception
+final class AuthorNotFoundException extends Exception
 {
 }
