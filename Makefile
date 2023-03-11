@@ -9,7 +9,8 @@ PHP      = $(PHP_CONT) php
 COMPOSER = $(PHP_CONT) composer
 SYMFONY  = $(PHP_CONT) bin/console
 UNIT_TESTING = $(PHP_CONT) bin/phpunit
-
+COVERAGE_UNIT_TESTING = XDEBUG_MODE=coverage $(PHP_CONT) bin/phpunit --coverage-html reports/
+PSALM = $(PHP_CONT) ./vendor/bin/psalm
 # Misc
 .DEFAULT_GOAL = help
 .PHONY        : help build up start down logs sh composer vendor sf cc
@@ -22,12 +23,12 @@ help: ## Outputs this help screen
 build: ## Builds the Docker images
 	@$(DOCKER_COMP) build --pull --no-cache
 
-up: ## Start the docker hub in detached mode (no logs)
+start: ## Start the docker hub in detached mode (no logs)
 	@$(DOCKER_COMP) up --detach
 
-start: build up ## Build and start the containers
+start-build: build up ## Build and start the containers
 
-down: ## Stop the docker hub
+stop: ## Stop the docker hub
 	@$(DOCKER_COMP) down --remove-orphans
 
 logs: ## Show live logs
@@ -54,3 +55,7 @@ cc: c=c:c ## Clear the cache
 cc: sf
 tests-back: ## Behaviour unit tests
 	@$(UNIT_TESTING)
+tests-with-coverage: ## Behaviour unit tests with coverage
+	@$(COVERAGE_UNIT_TESTING)
+psalm: ## Execute Psalm
+	@$(PSALM)

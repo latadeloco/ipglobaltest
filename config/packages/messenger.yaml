@@ -7,7 +7,6 @@ framework:
             command.bus:
                 middleware:
                     - validation
-                    - doctrine_transaction
             query.bus:
                 middleware:
                     - validation
@@ -15,7 +14,6 @@ framework:
                 default_middleware: allow_no_handlers
                 middleware:
                     - validation
-                    - doctrine_transaction
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
             # async: '%env(MESSENGER_TRANSPORT_DSN)%'

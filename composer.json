@@ -9,12 +9,18 @@
         "php": ">=8.2.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "fakerphp/faker": "*",
+        "nelmio/api-doc-bundle": "^4.11",
+        "ramsey/uuid": "*",
         "symfony/console": "6.2.*",
         "symfony/dotenv": "6.2.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "6.2.*",
+        "symfony/http-client": "6.2.*",
         "symfony/messenger": "6.2.*",
         "symfony/runtime": "6.2.*",
+        "symfony/twig-bundle": "6.2.*",
+        "symfony/validator": "6.2.*",
         "symfony/yaml": "6.2.*"
     },
     "config": {
@@ -69,11 +75,12 @@
     },
     "require-dev": {
         "phpstan/extension-installer": "^1.2",
+        "phpstan/phpstan": "^1.10",
         "phpstan/phpstan-symfony": "^1.2",
         "phpunit/phpunit": "^9.5",
         "psalm/plugin-symfony": "^5.0",
-        "symfony/browser-kit": "6.2.*",
         "symfony/css-selector": "6.2.*",
-        "symfony/phpunit-bridge": "^6.2"
+        "symfony/phpunit-bridge": "^6.2",
+        "vimeo/psalm": "^5.8"
     }
 }

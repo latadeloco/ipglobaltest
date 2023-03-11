@@ -11,6 +11,10 @@
         <directory name="src" />
         <ignoreFiles>
             <directory name="vendor" />
+            <directory name="tests" />
+            <directory name="src/Article/Post/Infrastructure/Delivery/Entrypoint/Api" />
+            <directory name="src/Article/Post/Infrastructure/Delivery/Web" />
+            <directory name="src/Shared/Symfony/Dependencies" />
         </ignoreFiles>
     </projectFiles>
 </psalm>

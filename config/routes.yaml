@@ -1,5 +1,10 @@
-controllers:
+controllersPostApi:
     resource:
-        path: ../src/Controller/
-        namespace: App\Controller
+        path: ../src/Article/Post/Infrastructure/Delivery/Entrypoint/Api
+        namespace: App\Article\Post\Infrastructure\Delivery\Entrypoint\Api
+    type: attribute
+controllersPostWeb:
+    resource:
+        path: ../src/Article/Post/Infrastructure/Delivery/Web
+        namespace: App\Article\Post\Infrastructure\Delivery\Web
     type: attribute
