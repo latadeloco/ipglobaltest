@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Article\Post\Infrastructure\Entrypoint\Api;
+namespace App\Article\Post\Infrastructure\Delivery\Entrypoint\Api;
 
 use App\Article\Post\Application\Command\CreatePostCommand;
 use App\Article\Post\Application\Query\FindAllArticleQuery;
@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(path: '/posts', name: 'api_post_')]
-final class PostController extends BaseController implements ControllerInterface
+class PostController extends BaseController implements ControllerInterface
 {
     #[Route(
         path: '/all',

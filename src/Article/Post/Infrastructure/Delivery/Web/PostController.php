@@ -15,11 +15,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route(path: '/posts', name: 'api_post_')]
+#[Route(path: '/', name: 'web_post_')]
 final class PostController extends BaseController implements ControllerInterface
 {
     #[Route(
-        path: '/',
         name: 'posts_view',
         methods: ['GET']
     )]
@@ -29,7 +28,7 @@ final class PostController extends BaseController implements ControllerInterface
     }
 
     #[Route(
-        path: '/view/{postId}',
+        path: 'post/{postId}',
         name: 'posts_view_by_post_id',
         methods: ['GET']
     )]
@@ -43,54 +42,12 @@ final class PostController extends BaseController implements ControllerInterface
     }
 
     #[Route(
-        path: '/all',
-        name: 'all_post',
+        path: 'create-post',
+        name: 'create_post',
         methods: ['GET']
     )]
-    public function allPost(): JsonResponse
+    public function createPost(): Response
     {
-        $query = new FindAllArticleQuery();
-        $result = $this->manageQuery($query);
-        return new JsonResponse($result, Response::HTTP_OK);
-    }
-
-    #[Route(
-        path: '/view/{postId}',
-        name: 'view_by_post_id',
-        methods: ['GET']
-    )]
-    public function viewPostByPostId(int $postId): JsonResponse
-    {
-        try {
-            $query = new FindPostByPostIdQuery($postId);
-            $result = $this->manageQuery($query);
-            return new JsonResponse($result, Response::HTTP_OK);
-        } catch (PostRepositoryException $e) {
-            return new JsonResponse($e->getMessage(), Response::HTTP_NOT_FOUND);
-        } catch (\Exception $e) {
-            return new JsonResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    #[Route(
-        path: '/store',
-        name: 'store_post',
-        methods: ['POST']
-    )]
-    public function storePost(Request $request): JsonResponse
-    {
-        try {
-            $rawData = json_decode($request->getContent(), true);
-            $title = $rawData['title'] ?? '';
-            $body = $rawData['body'] ?? '';
-            $username = $rawData['username'] ?? '';
-            $command = new CreatePostCommand(title: $title, body: $body, username: $username);
-            $this->manageCommand($command);
-            return new JsonResponse('STORED', Response::HTTP_OK);
-        } catch (PostRepositoryException $e) {
-            return new JsonResponse($e->getMessage(), Response::HTTP_NOT_FOUND);
-        } catch (\Exception $e) {
-            return new JsonResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        return $this->render(view: 'create-post.html.twig');
     }
 }

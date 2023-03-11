@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shared\Domain;
+namespace App\Shared\Symfony\Controller;
 
 interface ControllerInterface
 {
