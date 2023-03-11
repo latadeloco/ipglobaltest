@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Article\Post\Application\Query;
 
-final readonly class FindPostByAuthorIdQuery
+final readonly class FindPostByPostIdQuery
 {
     public function __construct(
-        private int $userId
+        private int $postId
     )
     {
     }
 
-    public function userId(): int
+    public function postId(): int
     {
-        return $this->userId;
+        return $this->postId;
     }
 }

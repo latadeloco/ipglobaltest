@@ -16,8 +16,8 @@ final class FindPostByPostIdQueryTest extends TestCase
      */
     public function itShouldBeOfProperClass(): void
     {
-        $sut = new FindPostByPostIdQuery(userId: 123);
+        $sut = new FindPostByPostIdQuery(postId: 123);
         $this->assertInstanceOf(FindPostByPostIdQuery::class, $sut);
-        $this->assertEquals(123, $sut->userId());
+        $this->assertEquals(123, $sut->postId());
     }
 }
