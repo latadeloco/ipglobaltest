@@ -16,7 +16,10 @@ final class CreatePostCommandTest extends TestCase
      */
     public function itShouldBeOfProperClass(): void
     {
-        $sut = new CreatePostCommand();
+        $sut = new CreatePostCommand(title: 'title', body: 'body', username: 'username');
         $this->assertInstanceOf(CreatePostCommand::class, $sut);
+        $this->assertEquals('title', $sut->title());
+        $this->assertEquals('body', $sut->body());
+        $this->assertEquals('username', $sut->username());
     }
 }
