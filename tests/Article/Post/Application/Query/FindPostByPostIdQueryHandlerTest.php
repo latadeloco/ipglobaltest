@@ -4,26 +4,28 @@ declare(strict_types=1);
 
 namespace App\Tests\Article\Post\Application\Query;
 
-use App\Article\Post\Application\Query\FindPostByAuthorIdQuery;
-use App\Article\Post\Application\Query\FindPostByAuthorIdQueryHandler;
+use App\Article\Post\Application\Query\FindPostByPostIdQuery;
+use App\Article\Post\Application\Query\FindPostByPostIdQueryHandler;
+use App\Article\Post\Application\Query\PostWithAuthorDto;
 use App\Article\Post\Domain\Exception\AuthorNotFoundException;
 use App\Article\Post\Domain\Exception\NotPostsFoundException;
 use App\Article\Post\Domain\Exception\PostRepositoryException;
+use App\Article\Post\Domain\Post;
 use App\Article\Post\Domain\PostRepository;
 use App\Shared\Domain\QueryHandlerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-final class FindPostByAuthorIdQueryHandlerTest extends TestCase
+final class FindPostByPostIdQueryHandlerTest extends TestCase
 {
-    private FindPostByAuthorIdQueryHandler $sut;
+    private FindPostByPostIdQueryHandler $sut;
     private PostRepository&MockObject $mockPostRepository;
     protected function setUp(): void
     {
         $this->mockPostRepository = $this->createMock(
             originalClassName: PostRepository::class
         );
-        $this->sut = new FindPostByAuthorIdQueryHandler(
+        $this->sut = new FindPostByPostIdQueryHandler(
             postRepository: $this->mockPostRepository
         );
     }
@@ -35,7 +37,7 @@ final class FindPostByAuthorIdQueryHandlerTest extends TestCase
      */
     public function itShouldBeOfProperClass(): void
     {
-        $this->assertInstanceOf(FindPostByAuthorIdQueryHandler::class, $this->sut);
+        $this->assertInstanceOf(FindPostByPostIdQueryHandler::class, $this->sut);
         $this->assertInstanceOf(QueryHandlerInterface::class, $this->sut);
     }
 
@@ -47,9 +49,9 @@ final class FindPostByAuthorIdQueryHandlerTest extends TestCase
     public function itShouldThrowIfUserIdNotFound(): void
     {
         $this->expectException(AuthorNotFoundException::class);
-        $query = new FindPostByAuthorIdQuery(userId: 123);
+        $query = new FindPostByPostIdQuery(postId: 123);
         $this->mockPostRepository
-            ->method('findPostByAuthorId')
+            ->method('findPostByPostId')
             ->willThrowException(new AuthorNotFoundException());
         ($this->sut)($query);
     }
@@ -62,9 +64,9 @@ final class FindPostByAuthorIdQueryHandlerTest extends TestCase
     public function itShouldThrowExceptionIfThereAreNotPostsByTheAuthor(): void
     {
         $this->expectException(NotPostsFoundException::class);
-        $query = new FindPostByAuthorIdQuery(userId: 123);
+        $query = new FindPostByPostIdQuery(postId: 123);
         $this->mockPostRepository
-            ->method('findPostByAuthorId')
+            ->method('findPostByPostId')
             ->willThrowException(new NotPostsFoundException());
         ($this->sut)($query);
     }
@@ -77,10 +79,26 @@ final class FindPostByAuthorIdQueryHandlerTest extends TestCase
     public function itShouldThrowExceptionIfPostRepositoryFails(): void
     {
         $this->expectException(PostRepositoryException::class);
-        $query = new FindPostByAuthorIdQuery(userId: 123);
+        $query = new FindPostByPostIdQuery(postId: 123);
         $this->mockPostRepository
-            ->method('findPostByAuthorId')
+            ->method('findPostByPostId')
             ->willThrowException(new PostRepositoryException());
         ($this->sut)($query);
+    }
+
+    /**
+     * @test
+     * happy_path
+     * @group find_post_by_post_id_query_handler
+     */
+    public function itShouldHappyPath(): void
+    {
+        $query = new FindPostByPostIdQuery(postId: 123);
+        $mockPost = $this->createMock(originalClassName: Post::class);
+        $this->mockPostRepository
+            ->method('findPostByPostId')
+            ->willReturn($mockPost);
+        $result = ($this->sut)($query);
+        $this->assertInstanceOf(PostWithAuthorDto::class, $result);
     }
 }
