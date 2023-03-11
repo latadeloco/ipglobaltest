@@ -1,0 +1,54 @@
+<div class="alert alert-danger d-none" role="alert" id="errorFlag">
+    <span id="textErrorFlag"></span>
+</div>
+<div class="alert alert-success d-none" role="alert" id="successFlag">
+    <span>The post was successfully created</span>
+</div>
+<div class="container">
+    <div class="input-group">
+        <span class="input-group-addon">author username</span>
+        <input type="text" id="authorName" class="form-control" placeholder="author username. p.e.: Bret">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon">post title</span>
+        <input type="text" id="postTitle" class="form-control" placeholder="post title">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon">post description</span>
+        <input type="text" id="postBody" class="form-control" placeholder="post description">
+    </div>
+    <div class="input-group">
+        <button type="text" id="create-new-post">Create new post</button>
+    </div>
+</div>
+
+<script
+    src="https://code.jquery.com/jquery-3.6.4.js"
+    integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+    crossorigin="anonymous"></script>
+<script>
+    $('#create-new-post').on('click', function () {
+        $('#errorFlag').addClass('d-none');
+        $('#successFlag').addClass('d-none');
+        let data = JSON.stringify({
+            'username': $('#authorName').val(),
+            'title': $('#postTitle').val(),
+            'body': $('#postBody').val(),
+        });
+        $.ajax({
+            url: "posts/store",
+            method: "POST",
+            data: data
+        }).done(function(response) {
+            console.log(response);
+        }).then(function() {
+            $('#successFlag').removeClass('d-none');
+        }).fail(function(error) {
+            if (error.status === 500) {
+                $('#textErrorFlag')[0].innerText = "Internal server error!!";
+            }
+            $('#textErrorFlag')[0].innerText  = error.responseJSON;
+            $('#errorFlag').removeClass('d-none');
+        });
+    });
+</script>

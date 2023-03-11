@@ -1,0 +1,39 @@
+<div class="alert alert-danger d-none" role="alert" id="errorFlag">
+    <span id="textErrorFlag"></span>
+</div>
+<div class="d-flex justify-content-center" id="spinner">
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+<div class="container">
+    <div class="row" id="section-all-post">
+    </div>
+</div>
+
+<script
+    src="https://code.jquery.com/jquery-3.6.4.js"
+    integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+    crossorigin="anonymous"></script>
+<script>
+    $.ajax({
+        url: "posts/all",
+    }).done(function(response) {
+        $('#spinner').addClass('d-none');
+        for (var i = 0; i < response.length; i++) {
+        $post = $('<div class="col-sm"><div class="card" style="width: 18rem;"><div class="card-body"><h5 class="card-title">'
+            + response[i].title
+            + '</h5><p class="card-text">'
+            + response[i].body
+            + '</p></div></div></div>');
+        $post.appendTo('#section-all-post');
+        }
+    }).fail(function(error) {
+        $('#spinner').addClass('d-none');
+        $('#textErrorFlag')[0].innerText = error.responseJSON;
+        if (error.status === 500) {
+            $('#textErrorFlag')[0].innerText = "Internal server error!!";
+        }
+        $('#errorFlag').removeClass('d-none');
+    });
+</script>
